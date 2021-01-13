@@ -33,6 +33,53 @@ namespace vm {
     inline auto distance(sf::Vector2f const& x, sf::Vector2f const& y) -> float {
         return magnitude(y - x);
     }
+
+    inline void normalize2D(std::vector<sf::Vector2<double>>& pic) {
+        double min_x = std::numeric_limits<double>::infinity();
+        double min_y = min_x;
+        double max_x = -min_x;
+        double max_y = max_x;
+
+        for (auto const& coord : pic) {
+            if (coord.x < min_x) min_x = coord.x;
+            if (coord.y < min_y) min_y = coord.y;
+            if (coord.x > max_x) max_x = coord.x;
+            if (coord.y > max_y) max_y = coord.y;
+        }
+
+        const auto dx = max_x - min_x;
+        const auto dy = max_y - min_y;
+        const auto dhmax = std::max(dx, dy) / 2.0;
+
+        for (auto& coord : pic) {
+            coord.x = (coord.x - (max_x + min_x) / 2.0) / dhmax;
+            coord.y = (coord.y - (max_y + min_y) / 2.0) / dhmax;
+        }
+
+        sf::VertexArray vs(sf::LineStrip);
+        unsigned i = 0;
+        for (auto const& coord : pic) {
+            double x = (coord.x + 1.0) * 1920.0 / 2.0;
+            double y = (coord.y + 1.0) * 1080.0 / 2.0;
+            sf::Uint8 c = unsigned (128 * double(i++) / pic.size()) + 128;
+            vs.append(sf::Vertex(sf::Vector2f(x, y), sf::Color(c, c, c)));
+        }
+
+        sf::RenderWindow window(sf::VideoMode(1920, 1080), "sfml-what");
+        while (window.isOpen()) {
+            sf::Event event{};
+            while (window.pollEvent(event)) {
+                if (event.type == sf::Event::Closed)
+                    window.close();
+            }
+
+            window.clear();
+            window.draw(vs);
+            window.display();
+
+        }
+    }
+
 }
 
 #endif //FSDRAW_VECTORMATH_HH

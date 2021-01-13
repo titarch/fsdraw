@@ -1,17 +1,15 @@
 #include <SFML/Graphics.hpp>
 #include <utils/vectormath.hh>
-#include "engine/Chain.hh"
+#include "engine/Path.hh"
 
 int main() {
     sf::ContextSettings settings{};
     settings.antialiasingLevel = 16;
 
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "sfml-fsdraw", sf::Style::Default, settings);
-    Chain chain{};
-    chain.setPosition(460, 540);
-
-    for (auto i = 1; i <= 50; ++i)
-        chain.emplace_arrow(250.f / i, i * vm::pi / 50);
+    auto path = Path::from_plain("../res/paths/gclef.txt");
+    auto chain = path.chain(150);
+    chain.setPosition(960, 540);
 
     while (window.isOpen()) {
         sf::Event event{};
@@ -19,7 +17,7 @@ int main() {
             if (event.type == sf::Event::Closed)
                 window.close();
         }
-        chain.step(vm::pi / 720.f);
+        chain.step(0.005f);
 
         window.clear();
         window.draw(chain);

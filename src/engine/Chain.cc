@@ -14,9 +14,10 @@ void Chain::emplace_arrow(float radius, float angle) {
 }
 
 void Chain::step(float angle) {
-    auto sign = 1;
-    for (auto i = 0u; i < arrows_.size(); ++i, sign = -sign)
-        arrows_[i].rotate(sign * angle * i);
+    for (auto i = 0u; i < arrows_.size(); ++i) {
+        const int k = int(i+1) / 2 * (i % 2 == 0 ? 1 : -1);
+        arrows_[i].rotate(float(k) * angle);
+    }
     update_origins();
 }
 
