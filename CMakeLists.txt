@@ -3,7 +3,7 @@ project(fsdraw)
 
 set(CMAKE_CXX_STANDARD 20)
 
-set(EXECUTABLE_NAME cells)
+set(EXECUTABLE_NAME fsdraw)
 
 set(CMAKE_CXX_FLAGS_RELEASE  "-O3 -Wall -Wextra -Werror -pedantic")
 set(CMAKE_CXX_FLAGS_DEBUG    "-g  -Wall -Wextra -Werror -pedantic")
