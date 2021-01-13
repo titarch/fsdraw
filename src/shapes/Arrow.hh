@@ -13,7 +13,9 @@ public:
     Arrow();
     Arrow(sf::Vector2f const& start, sf::Vector2f const& end);
     ~Arrow() override = default;
-private:
+
+    [[nodiscard]] auto tip_position() const -> sf::Vector2f;
+protected:
     void update();
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 

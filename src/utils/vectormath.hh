@@ -14,7 +14,7 @@ namespace vm {
     inline constexpr auto pi = std::numbers::pi_v<float>;
 
     // altov = angle-length to vector (coordinates)
-    inline auto altov(float angle, float length) -> sf::Vector2f {
+    inline auto altov(float length, float angle) -> sf::Vector2f {
         return length * sf::Vector2f{std::cos(angle), std::sin(angle)};
     }
 
