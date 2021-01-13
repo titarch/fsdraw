@@ -15,6 +15,8 @@ public:
     ~Arrow() override = default;
 
     [[nodiscard]] auto tip_position() const -> sf::Vector2f;
+
+    void set_color(sf::Color const& color);
 protected:
     void update();
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;

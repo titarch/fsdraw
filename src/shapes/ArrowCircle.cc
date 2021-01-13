@@ -23,6 +23,19 @@ ArrowCircle::ArrowCircle(const sf::Vector2f& start, const sf::Vector2f& end) : A
 
 ArrowCircle::ArrowCircle(float radius, float angle) : ArrowCircle(sf::Vector2f{}, vm::altov(radius, angle)) {}
 
+ArrowCircle::ArrowCircle(float radius, float angle, const sf::Color& color) : ArrowCircle(radius, angle) {
+    set_arrow_color(color);
+    set_circle_color(color);
+}
+
+void ArrowCircle::set_arrow_color(const sf::Color& color) {
+    set_color(color);
+}
+
+void ArrowCircle::set_circle_color(const sf::Color& color) {
+    circle_.setOutlineColor(color);
+}
+
 void ArrowCircle::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     states.transform = getTransform();
 

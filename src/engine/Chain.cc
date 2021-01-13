@@ -5,7 +5,7 @@
 #include "Chain.hh"
 
 void Chain::emplace_arrow(float radius, float angle) {
-    arrows_.emplace_back(radius, angle);
+    arrows_.emplace_back(radius, angle, sf::Color(128, 255, 255, 128));
 }
 
 void Chain::step(float angle) {

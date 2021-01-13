@@ -13,8 +13,11 @@ public:
     ArrowCircle();
     ArrowCircle(sf::Vector2f const& start, sf::Vector2f const& end);
     ArrowCircle(float radius, float angle);
+    ArrowCircle(float radius, float angle, sf::Color const& color);
     ~ArrowCircle() override = default;
 
+    void set_arrow_color(sf::Color const& color);
+    void set_circle_color(sf::Color const& color);
 protected:
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 

@@ -25,6 +25,10 @@ auto Arrow::tip_position() const -> sf::Vector2f {
     return getPosition() + vm::altov(getScale().x, getRotation() * vm::pi / 180.f);
 }
 
+void Arrow::set_color(const sf::Color& color) {
+    color_ = color;
+}
+
 void Arrow::update() {
     const auto half_edge_thickness = edge_thickness_ / 2.f;
     const auto half_tip_thickness = tip_thickness_ / 2.f;
