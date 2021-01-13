@@ -7,8 +7,8 @@ int main() {
     settings.antialiasingLevel = 16;
 
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "sfml-fsdraw", sf::Style::Default, settings);
-    auto path = Path::from_plain("../res/paths/gclef.txt");
-    auto chain = path.chain(150);
+    auto path = Path::from_plain("../res/paths/note.txt");
+    auto chain = path.chain(100);
     chain.setPosition(960, 540);
 
     while (window.isOpen()) {
