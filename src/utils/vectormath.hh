@@ -25,6 +25,14 @@ namespace vm {
     inline auto magnitude(sf::Vector2f const& v) -> float {
         return std::sqrt(sqrMagnitude(v));
     }
+
+    inline auto sqrDistance(sf::Vector2f const& x, sf::Vector2f const& y) -> float {
+        return sqrMagnitude(y - x);
+    }
+
+    inline auto distance(sf::Vector2f const& x, sf::Vector2f const& y) -> float {
+        return magnitude(y - x);
+    }
 }
 
 #endif //FSDRAW_VECTORMATH_HH
