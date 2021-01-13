@@ -4,6 +4,11 @@
 
 #include "Chain.hh"
 
+Chain::Chain(const std::initializer_list<std::array<float, 2>>& init_list) {
+    for (auto const& arr : init_list)
+        emplace_arrow(arr[0], arr[1]);
+}
+
 void Chain::emplace_arrow(float radius, float angle) {
     arrows_.emplace_back(radius, angle, sf::Color(128, 255, 255, 128));
 }

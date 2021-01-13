@@ -12,6 +12,7 @@
 class Chain : public sf::Drawable, public sf::Transformable {
 public:
     Chain() = default;
+    Chain(std::initializer_list<std::array<float, 2>> const& init_list);
     ~Chain() override = default;
     void emplace_arrow(float radius, float angle);
     void step(float dt);
