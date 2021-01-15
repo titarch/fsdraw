@@ -16,6 +16,8 @@ public:
     ~Chain() override = default;
     void emplace_arrow(float radius, float angle);
     void step(float dt, float time_per_round);
+
+    [[nodiscard]] auto tip_position() const -> sf::Vector2f;
 protected:
     void update_origins();
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;

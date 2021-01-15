@@ -27,6 +27,11 @@ void Engine::run(std::string const& drawpath, unsigned chain_size, unsigned inte
     auto chain = path.chain(chain_size);
     chain.setPosition(float(w_) / 2, float(h_) / 2);
 
+    sf::View base_view = window.getDefaultView();
+    sf::View zoom_view = window.getDefaultView();
+    zoom_view.setViewport(sf::FloatRect(0.75f, 0.f, 0.25f, 0.25f));
+    zoom_view.zoom(0.02f);
+
     while (window.isOpen()) {
         sf::Event event{};
         while (window.pollEvent(event)) {
@@ -43,6 +48,10 @@ void Engine::run(std::string const& drawpath, unsigned chain_size, unsigned inte
             }
         }
         window.clear();
+        window.setView(base_view);
+        window.draw(chain);
+        zoom_view.setCenter(chain.tip_position());
+        window.setView(zoom_view);
         window.draw(chain);
         window.display();
 

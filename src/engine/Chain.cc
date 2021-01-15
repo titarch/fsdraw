@@ -37,3 +37,7 @@ void Chain::draw(sf::RenderTarget& target, sf::RenderStates states) const {
         target.draw(arrow, states);
     target.draw(trail_, states);
 }
+
+auto Chain::tip_position() const -> sf::Vector2f {
+    return arrows_.back().tip_position();
+}
