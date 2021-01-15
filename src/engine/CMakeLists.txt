@@ -1,4 +1,5 @@
 set(engine_src_files
+        Engine.cc Engine.hh
         Chain.cc Chain.hh
         Path.cc Path.hh
         )

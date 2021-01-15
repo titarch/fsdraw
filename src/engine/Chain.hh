@@ -15,7 +15,7 @@ public:
     Chain(std::initializer_list<std::array<float, 2>> const& init_list);
     ~Chain() override = default;
     void emplace_arrow(float radius, float angle);
-    void step(float dt);
+    void step(float dt, float time_per_round);
 protected:
     void update_origins();
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;

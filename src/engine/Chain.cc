@@ -13,10 +13,10 @@ void Chain::emplace_arrow(float radius, float angle) {
     arrows_.emplace_back(radius, angle, sf::Color(128, 255, 255, 128));
 }
 
-void Chain::step(float angle) {
+void Chain::step(float dt, float time_per_round) {
     for (auto i = 0u; i < arrows_.size(); ++i) {
         const int k = int(i+1) / 2 * (i % 2 == 0 ? 1 : -1);
-        arrows_[i].rotate(float(k) * angle);
+        arrows_[i].rotate(float(k) * (dt * 360.f / time_per_round));
     }
     update_origins();
 }

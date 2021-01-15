@@ -7,7 +7,9 @@
 
 using namespace std::complex_literals;
 
-Path Path::from_plain(const std::string& filename) {
+Path::Path(float radius) : radius_(radius) {}
+
+Path Path::from_plain(const std::string& filename, float radius) {
     auto file = std::ifstream(filename);
     unsigned size;
     file >> size;
@@ -20,12 +22,10 @@ Path Path::from_plain(const std::string& filename) {
         points.emplace_back(x, y);
     }
     vm::normalize2D(points);
-    Path path{};
+    auto path = Path(radius);
     path.points_.reserve(size);
-    for (auto const& point : points) {
+    for (auto const& point : points)
         path.points_.emplace_back(point.x, point.y);
-//        printf("%lf %lf \n", point.x, point.y);
-    }
     return path;
 }
 
@@ -37,8 +37,8 @@ void Path::linear_interpolation(unsigned int new_pts_per_pts) {
         newpts.push_back(points_[i]);
         for (auto k = 1u; k <= new_pts_per_pts; ++k) {
             const auto t = double(k) * step;
-            const auto real = std::lerp(points_[i].real(), points_[i+1].real(), t);
-            const auto imag = std::lerp(points_[i].imag(), points_[i+1].imag(), t);
+            const auto real = std::lerp(points_[i].real(), points_[i + 1].real(), t);
+            const auto imag = std::lerp(points_[i].imag(), points_[i + 1].imag(), t);
             newpts.emplace_back(real, imag);
         }
     }
@@ -51,7 +51,7 @@ auto Path::fs_coef(int n) const -> std::complex<double> {
     std::complex<double> sum{};
     auto t = 0.0;
     for (auto k = 0u; k < points_.size(); ++k) {
-        sum += points_[k] * std::exp(-double(n) * 2.0 * M_PI * 1.0i * t) * (dt * 500);
+        sum += points_[k] * std::exp(-double(n) * 2.0 * M_PI * 1.0i * t) * (dt * radius_);
         t += dt;
     }
     return sum;
