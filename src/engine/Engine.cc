@@ -33,6 +33,8 @@ void Engine::run(std::string const& drawpath, unsigned chain_size, unsigned inte
     zoom_view.zoom(0.02f);
 
     float speed_multiplier = 1.0f;
+    bool toggle_zoom = true;
+
     while (window.isOpen()) {
         sf::Event event{};
         while (window.pollEvent(event)) {
@@ -49,6 +51,9 @@ void Engine::run(std::string const& drawpath, unsigned chain_size, unsigned inte
                     case sf::Keyboard::D:
                         speed_multiplier += 0.1f;
                         break;
+                    case sf::Keyboard::Z:
+                        toggle_zoom = !toggle_zoom;
+                        break;
                     default:
                         break;
                 }
@@ -57,9 +62,11 @@ void Engine::run(std::string const& drawpath, unsigned chain_size, unsigned inte
         window.clear();
         window.setView(base_view);
         window.draw(chain);
-        zoom_view.setCenter(chain.tip_position());
-        window.setView(zoom_view);
-        window.draw(chain);
+        if (toggle_zoom) {
+            zoom_view.setCenter(chain.tip_position());
+            window.setView(zoom_view);
+            window.draw(chain);
+        }
         window.display();
 
         chain.step(dt(), seconds_per_round / speed_multiplier);
