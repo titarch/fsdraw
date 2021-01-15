@@ -14,6 +14,7 @@ public:
     void update_time();
     [[nodiscard]] auto dt() const -> float;
 
+    void display_help();
     void run(std::string const& drawpath,
              unsigned chain_size = 100,
              unsigned interpolation = 0,
@@ -24,6 +25,7 @@ private:
     sf::Time dt_;
     sf::Font font_;
     sf::Text tl_text_;
+    sf::RenderWindow win_;
 };
 
 
