@@ -21,6 +21,10 @@ void Chain::step(float dt, float time_per_round) {
     update_origins();
 }
 
+void Chain::clear_trail() {
+    trail_.clear();
+}
+
 void Chain::update_origins() {
     if (arrows_.empty()) return;
 

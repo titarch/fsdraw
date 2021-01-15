@@ -16,6 +16,7 @@ public:
     ~Chain() override = default;
     void emplace_arrow(float radius, float angle);
     void step(float dt, float time_per_round);
+    void clear_trail();
 
     [[nodiscard]] auto tip_position() const -> sf::Vector2f;
 protected:

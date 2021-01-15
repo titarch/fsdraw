@@ -14,9 +14,11 @@ public:
     ~Trail() override = default;
 
     void add_point(sf::Vector2f const& pos);
+    void clear();
 protected:
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
     sf::VertexArray vertices_;
+    std::vector<double> hot_;
 };
 
 

@@ -30,8 +30,8 @@ void Engine::display_help() {
     tl_text_.setCharacterSize(48);
     tl_text_.setString("H (hold): Display help\nS: Decrease speed by increment\nD: Increase speed by increment\n"
                        "A: Scale down increment by 10\nF: Scale up increment by 10\n"
-                       "Z: Toggle zoom view display\nT: Toggle text display\n"
-                       "+: Zoom in 25%\n-: Zoom out 25%");
+                       "Z: Toggle zoom view display\nT: Toggle text display\n+: Zoom in 25%\n"
+                       "-: Zoom out 25%\nR: Clear trail\nQ: Remove a coefficient\nW: Add a coefficient");
     while (win_.isOpen() && sf::Keyboard::isKeyPressed(sf::Keyboard::H)) {
         win_.clear();
         win_.draw(tl_text_);
@@ -100,6 +100,19 @@ void Engine::run(std::string const& drawpath, unsigned chain_size, unsigned inte
                         zoom_factor *= 1.25f;
                         zoom_view.setSize(base_view.getSize() * zoom_factor);
                         break;
+                    case sf::Keyboard::R:
+                        chain.clear_trail();
+                        break;
+                    case sf::Keyboard::Q:
+                        if (chain_size > 1) --chain_size;
+                        chain = path.chain(chain_size);
+                        chain.setPosition(float(w_) / 2, float(h_) / 2);
+                        break;
+                    case sf::Keyboard::W:
+                        ++chain_size;
+                        chain = path.chain(chain_size);
+                        chain.setPosition(float(w_) / 2, float(h_) / 2);
+                        break;
                     default:
                         break;
                 }
@@ -109,11 +122,13 @@ void Engine::run(std::string const& drawpath, unsigned chain_size, unsigned inte
         win_.setView(base_view);
         win_.draw(chain);
         if (toggle_text) {
-            char text[256];
+            char text[1024];
             sprintf(text,
                     "speed multiplier = %lfx\nspeed increment = %lf\nfull drawing = %.2lfs\n"
-                    "zoom factor = %lfx\n(hold \"H\" to display help)",
-                    speed_multiplier, speed_increment, seconds_per_round / speed_multiplier, zoom_factor);
+                    "zoom factor = %lfx\nNumber of coefficients: %u\nInterpolation level: %u\n"
+                    "(hold \"H\" to display help)",
+                    speed_multiplier, speed_increment, seconds_per_round / speed_multiplier, zoom_factor, chain_size,
+                    interpolation);
             tl_text_.setString(text);
             win_.draw(tl_text_);
         }
