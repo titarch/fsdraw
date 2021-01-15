@@ -3,11 +3,8 @@
 //
 
 #include <iostream>
-#include <utils/vectormath.hh>
 #include "Engine.hh"
 #include "Path.hh"
-
-using namespace std::complex_literals;
 
 Engine::Engine(unsigned int w, unsigned int h) : w_(w), h_(h), dt_(), font_(), tl_text_(),
                                                  win_(sf::VideoMode(w, h), "sfml-fsdraw", sf::Style::Default,
@@ -61,8 +58,6 @@ void Engine::run(std::string const& drawpath, unsigned chain_size, unsigned inte
     bool toggle_zoom = true;
     bool toggle_text = true;
     float zoom_factor = 0.05f;
-    int n = 0;
-    std::complex<double> c{};
     zoom_view.zoom(zoom_factor);
 
     while (win_.isOpen()) {
@@ -115,9 +110,7 @@ void Engine::run(std::string const& drawpath, unsigned chain_size, unsigned inte
                         break;
                     case sf::Keyboard::W:
                         ++chain_size;
-                        n = chain.next_n();
-                        c = path.fs_coef(n);
-                        chain.emplace_arrow(c * std::exp(double(n) * 2.0 * vm::pi * 1.0i * chain.time()));
+                        chain.emplace_arrow(path.fs_coef(chain.next_n()));
                         break;
                     default:
                         break;

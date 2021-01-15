@@ -2,7 +2,10 @@
 // Created by bparsy on 1/12/21.
 //
 
+#include <utils/vectormath.hh>
 #include "Chain.hh"
+
+using namespace std::complex_literals;
 
 Chain::Chain(const std::initializer_list<std::array<float, 2>>& init_list) {
     for (auto const& arr : init_list)
@@ -11,16 +14,19 @@ Chain::Chain(const std::initializer_list<std::array<float, 2>>& init_list) {
 
 void Chain::emplace_arrow(float radius, float angle) {
     arrows_.emplace_back(radius, angle, sf::Color(255, 255, 255, 200), sf::Color(0, 255, 255, 100));
+    phases_.push_back(angle);
 }
 
 void Chain::emplace_arrow(const std::complex<double>& c) {
-    arrows_.emplace_back(std::abs(c), std::arg(c), sf::Color(255, 255, 255, 200), sf::Color(0, 255, 255, 100));
+    emplace_arrow(std::abs(c), std::arg(c));
 }
 
 void Chain::step(float dt, float time_per_round) {
     for (auto i = 0u; i < arrows_.size(); ++i) {
         const int k = int(i + 1) / 2 * (i % 2 == 0 ? 1 : -1);
-        arrows_[i].rotate(float(k) * (dt * 360.f / time_per_round));
+        arrows_[i].setRotation(std::arg(
+                std::exp(1.0i * (double(k) * 2.0 * vm::pi * time_ + phases_[i]))
+        ) / vm::pi * 180);
     }
     time_ += dt / time_per_round;
     while (time_ > 1.0) time_ -= 1.0;

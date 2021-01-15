@@ -28,6 +28,7 @@ protected:
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
     std::vector<ArrowCircle> arrows_{};
+    std::vector<double> phases_{};
     Trail trail_{};
     double time_{};
 };
