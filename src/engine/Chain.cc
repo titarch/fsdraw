@@ -39,6 +39,7 @@ void Chain::clear_trail() {
 
 void Chain::remove_last() {
     arrows_.pop_back();
+    phases_.pop_back();
 }
 
 auto Chain::next_n() const -> int {
