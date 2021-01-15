@@ -32,6 +32,7 @@ void Engine::run(std::string const& drawpath, unsigned chain_size, unsigned inte
     zoom_view.setViewport(sf::FloatRect(0.75f, 0.f, 0.25f, 0.25f));
     zoom_view.zoom(0.02f);
 
+    float speed_multiplier = 1.0f;
     while (window.isOpen()) {
         sf::Event event{};
         while (window.pollEvent(event)) {
@@ -41,6 +42,12 @@ void Engine::run(std::string const& drawpath, unsigned chain_size, unsigned inte
                 switch (event.key.code) {
                     case sf::Keyboard::Escape:
                         window.close();
+                        break;
+                    case sf::Keyboard::S:
+                        speed_multiplier -= 0.1f;
+                        break;
+                    case sf::Keyboard::D:
+                        speed_multiplier += 0.1f;
                         break;
                     default:
                         break;
@@ -55,7 +62,7 @@ void Engine::run(std::string const& drawpath, unsigned chain_size, unsigned inte
         window.draw(chain);
         window.display();
 
-        chain.step(dt(), seconds_per_round);
+        chain.step(dt(), seconds_per_round / speed_multiplier);
         update_time();
     }
 }
