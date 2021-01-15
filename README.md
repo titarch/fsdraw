@@ -6,7 +6,7 @@ of various sizes. This is a way to visualize how Fourier series actually work.
 
 ## Example
 ### Gif of the GitHub logo being drawn
-![](https://imgur.com/KyhAKt9)
+![](github.gif)
 
 ## Build (Linux)
 
