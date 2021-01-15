@@ -3,8 +3,11 @@
 //
 
 #include <iostream>
+#include <utils/vectormath.hh>
 #include "Engine.hh"
 #include "Path.hh"
+
+using namespace std::complex_literals;
 
 Engine::Engine(unsigned int w, unsigned int h) : w_(w), h_(h), dt_(), font_(), tl_text_(),
                                                  win_(sf::VideoMode(w, h), "sfml-fsdraw", sf::Style::Default,
@@ -58,6 +61,8 @@ void Engine::run(std::string const& drawpath, unsigned chain_size, unsigned inte
     bool toggle_zoom = true;
     bool toggle_text = true;
     float zoom_factor = 0.05f;
+    int n = 0;
+    std::complex<double> c{};
     zoom_view.zoom(zoom_factor);
 
     while (win_.isOpen()) {
@@ -104,14 +109,16 @@ void Engine::run(std::string const& drawpath, unsigned chain_size, unsigned inte
                         chain.clear_trail();
                         break;
                     case sf::Keyboard::Q:
-                        if (chain_size > 1) --chain_size;
-                        chain = path.chain(chain_size);
-                        chain.setPosition(float(w_) / 2, float(h_) / 2);
+                        if (chain_size <= 1) break;
+                        --chain_size;
+                        chain.remove_last();
                         break;
                     case sf::Keyboard::W:
                         ++chain_size;
-                        chain = path.chain(chain_size);
-                        chain.setPosition(float(w_) / 2, float(h_) / 2);
+                        std::cout << chain.next_n() << std::endl;
+                        n = chain.next_n();
+                        c = path.fs_coef(n);
+                        chain.emplace_arrow(c * std::exp(double(n) * 2.0 * vm::pi * 1.0i * chain.time()));
                         break;
                     default:
                         break;
@@ -124,11 +131,12 @@ void Engine::run(std::string const& drawpath, unsigned chain_size, unsigned inte
         if (toggle_text) {
             char text[1024];
             sprintf(text,
+                    "time = %lf\n"
                     "speed multiplier = %lfx\nspeed increment = %lf\nfull drawing = %.2lfs\n"
-                    "zoom factor = %lfx\nNumber of coefficients: %u\nInterpolation level: %u\n"
+                    "zoom factor = %lfx\nNumber of coefficients = %u\nInterpolation level = %u\n"
                     "(hold \"H\" to display help)",
-                    speed_multiplier, speed_increment, seconds_per_round / speed_multiplier, zoom_factor, chain_size,
-                    interpolation);
+                    chain.time(), speed_multiplier, speed_increment, seconds_per_round / speed_multiplier, zoom_factor,
+                    chain_size, interpolation);
             tl_text_.setString(text);
             win_.draw(tl_text_);
         }

@@ -13,16 +13,35 @@ void Chain::emplace_arrow(float radius, float angle) {
     arrows_.emplace_back(radius, angle, sf::Color(255, 255, 255, 200), sf::Color(0, 255, 255, 100));
 }
 
+void Chain::emplace_arrow(const std::complex<double>& c) {
+    arrows_.emplace_back(std::abs(c), std::arg(c), sf::Color(255, 255, 255, 200), sf::Color(0, 255, 255, 100));
+}
+
 void Chain::step(float dt, float time_per_round) {
     for (auto i = 0u; i < arrows_.size(); ++i) {
-        const int k = int(i+1) / 2 * (i % 2 == 0 ? 1 : -1);
+        const int k = int(i + 1) / 2 * (i % 2 == 0 ? 1 : -1);
         arrows_[i].rotate(float(k) * (dt * 360.f / time_per_round));
     }
+    time_ += dt / time_per_round;
+    while (time_ > 1.0) time_ -= 1.0;
     update_origins();
 }
 
 void Chain::clear_trail() {
     trail_.clear();
+}
+
+void Chain::remove_last() {
+    arrows_.pop_back();
+}
+
+auto Chain::next_n() const -> int {
+    const auto size = arrows_.size();
+    return int(size + 1) / 2 * (size % 2 == 0 ? 1 : -1);
+}
+
+auto Chain::time() const -> double {
+    return time_;
 }
 
 void Chain::update_origins() {

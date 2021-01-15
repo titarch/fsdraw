@@ -61,8 +61,7 @@ auto Path::chain(unsigned int size) const -> Chain {
     Chain chain{};
     for (auto i = 1u; i <= size; ++i) {
         const int k = int(i) / 2 * (i % 2 == 0 ? 1 : -1);
-        const auto c = fs_coef(k);
-        chain.emplace_arrow(std::abs(c), std::arg(c));
+        chain.emplace_arrow(fs_coef(k));
     }
     return chain;
 }
