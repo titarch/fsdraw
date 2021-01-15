@@ -22,6 +22,8 @@ public:
 private:
     unsigned w_, h_;
     sf::Time dt_;
+    sf::Font font_;
+    sf::Text tl_text_;
 };
 
 
