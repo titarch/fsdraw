@@ -9,7 +9,7 @@
 Engine::Engine(unsigned int w, unsigned int h) : w_(w), h_(h), dt_(), font_(), tl_text_(),
                                                  win_(sf::VideoMode(w, h), "sfml-fsdraw", sf::Style::Default,
                                                       sf::ContextSettings{0, 0, 16}) {
-    const std::string ttf = "/usr/share/fonts/TTF/Arial.TTF";
+    const std::string ttf = "../res/DejaVuSansMono.ttf";
     if (!font_.loadFromFile(ttf))
         std::cerr << "Could not find: " << ttf;
     tl_text_.setFont(font_);
