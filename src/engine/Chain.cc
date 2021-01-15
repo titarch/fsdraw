@@ -10,7 +10,7 @@ Chain::Chain(const std::initializer_list<std::array<float, 2>>& init_list) {
 }
 
 void Chain::emplace_arrow(float radius, float angle) {
-    arrows_.emplace_back(radius, angle, sf::Color(128, 255, 255, 128));
+    arrows_.emplace_back(radius, angle, sf::Color(255, 255, 255, 200), sf::Color(0, 255, 255, 100));
 }
 
 void Chain::step(float dt, float time_per_round) {

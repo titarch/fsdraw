@@ -27,6 +27,7 @@ auto Arrow::tip_position() const -> sf::Vector2f {
 
 void Arrow::set_color(const sf::Color& color) {
     color_ = color;
+    update();
 }
 
 void Arrow::update() {
