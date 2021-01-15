@@ -7,10 +7,6 @@
 
 using namespace std::complex_literals;
 
-Path::Path(unsigned int size) : size_(size) {
-    points_.reserve(size_);
-}
-
 Path Path::from_plain(const std::string& filename) {
     auto file = std::ifstream(filename);
     unsigned size;
@@ -24,7 +20,8 @@ Path Path::from_plain(const std::string& filename) {
         points.emplace_back(x, y);
     }
     vm::normalize2D(points);
-    Path path(size);
+    Path path{};
+    path.points_.reserve(size);
     for (auto const& point : points) {
         path.points_.emplace_back(point.x, point.y);
 //        printf("%lf %lf \n", point.x, point.y);
@@ -32,12 +29,28 @@ Path Path::from_plain(const std::string& filename) {
     return path;
 }
 
-auto Path::fs_coef(int n) const -> std::complex<double> {
+void Path::linear_interpolation(unsigned int new_pts_per_pts) {
+    auto newpts = decltype(points_){};
+    newpts.reserve(points_.size() * new_pts_per_pts);
+    const auto step = 1.0 / double(new_pts_per_pts + 1);
+    for (auto i = 0u; i < points_.size() - 1; ++i) {
+        newpts.push_back(points_[i]);
+        for (auto k = 1u; k <= new_pts_per_pts; ++k) {
+            const auto t = double(k) * step;
+            const auto real = std::lerp(points_[i].real(), points_[i+1].real(), t);
+            const auto imag = std::lerp(points_[i].imag(), points_[i+1].imag(), t);
+            newpts.emplace_back(real, imag);
+        }
+    }
+    newpts.push_back(points_.back());
+    points_ = newpts;
+}
 
-    const auto dt = 1.0 / double(size_);
+auto Path::fs_coef(int n) const -> std::complex<double> {
+    const auto dt = 1.0 / double(points_.size());
     std::complex<double> sum{};
     auto t = 0.0;
-    for (auto k = 0u; k < size_; ++k) {
+    for (auto k = 0u; k < points_.size(); ++k) {
         sum += points_[k] * std::exp(-double(n) * 2.0 * M_PI * 1.0i * t) * (dt * 500);
         t += dt;
     }

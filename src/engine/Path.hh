@@ -13,13 +13,14 @@
 
 class Path {
 public:
-    explicit Path(unsigned size);
+    Path() = default;
     static Path from_plain(std::string const& filename);
+
+    void linear_interpolation(unsigned new_pts_per_pts);
 
     [[nodiscard]] auto fs_coef(int n) const -> std::complex<double>;
     [[nodiscard]] auto chain(unsigned size) const -> Chain;
 private:
-    unsigned size_;
     std::vector<std::complex<double>> points_{};
 };
 
