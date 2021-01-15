@@ -115,7 +115,6 @@ void Engine::run(std::string const& drawpath, unsigned chain_size, unsigned inte
                         break;
                     case sf::Keyboard::W:
                         ++chain_size;
-                        std::cout << chain.next_n() << std::endl;
                         n = chain.next_n();
                         c = path.fs_coef(n);
                         chain.emplace_arrow(c * std::exp(double(n) * 2.0 * vm::pi * 1.0i * chain.time()));
