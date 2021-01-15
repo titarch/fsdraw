@@ -38,6 +38,7 @@ void Engine::display_help() {
         win_.display();
     }
     tl_text_.setCharacterSize(16);
+    update_time();
 }
 
 void Engine::run(std::string const& drawpath, unsigned chain_size, unsigned interpolation, float seconds_per_round) {
