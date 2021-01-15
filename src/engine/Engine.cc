@@ -30,10 +30,11 @@ void Engine::run(std::string const& drawpath, unsigned chain_size, unsigned inte
     sf::View base_view = window.getDefaultView();
     sf::View zoom_view = window.getDefaultView();
     zoom_view.setViewport(sf::FloatRect(0.75f, 0.f, 0.25f, 0.25f));
-    zoom_view.zoom(0.02f);
 
     float speed_multiplier = 1.0f;
     bool toggle_zoom = true;
+    float zoom_factor = 0.05f;
+    zoom_view.zoom(zoom_factor);
 
     while (window.isOpen()) {
         sf::Event event{};
@@ -53,6 +54,14 @@ void Engine::run(std::string const& drawpath, unsigned chain_size, unsigned inte
                         break;
                     case sf::Keyboard::Z:
                         toggle_zoom = !toggle_zoom;
+                        break;
+                    case sf::Keyboard::Add:
+                        zoom_factor *= 0.75f;
+                        zoom_view.setSize(base_view.getSize()*zoom_factor);
+                        break;
+                    case sf::Keyboard::Subtract:
+                        zoom_factor *= 1.25f;
+                        zoom_view.setSize(base_view.getSize()*zoom_factor);
                         break;
                     default:
                         break;
