@@ -23,6 +23,9 @@ make -j4
 ./fsdraw
 ```
 
+## Windows
+Download the last release binary.
+
 ## Features
 - Zoom view on drawing tip (changeable)
 - Changeable speed of drawing
