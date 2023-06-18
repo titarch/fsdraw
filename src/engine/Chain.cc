@@ -3,6 +3,7 @@
 //
 
 #include <utils/vectormath.hh>
+#include <array>
 #include "Chain.hh"
 
 using namespace std::complex_literals;
